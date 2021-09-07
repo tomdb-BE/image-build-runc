@@ -28,6 +28,6 @@ RUN install -s runc /usr/local/bin
 RUN runc --version
 
 FROM ubi
-RUN microdnf update -y && \
+RUN yum update -y && \
     rm -rf /var/cache/yum
 COPY --from=builder /usr/local/bin/ /usr/local/bin/
