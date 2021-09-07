@@ -26,7 +26,7 @@ image-build:
 		--build-arg PKG=$(PKG) \
 		--build-arg SRC=$(SRC) \
 		--build-arg TAG=$(TAG:$(BUILD_META)=) \
-                --build-arg GO_IMAGE=$(ORG)/hardened-build-base:$(GOLANG_VERSION)-multiarch \
+                --build-arg GO_IMAGE=$(ORG)/hardened-build-base:$(GOLANG_VERSION) \
                 --build-arg UBI_IMAGE=$(UBI_IMAGE) \
 		--tag $(ORG)/hardened-runc:$(TAG) \
 		--tag $(ORG)/hardened-runc:$(TAG)-$(ARCH) \
