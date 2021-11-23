@@ -9,8 +9,8 @@ ORG ?= rancher
 PKG ?= github.com/opencontainers/runc
 SRC ?= github.com/opencontainers/runc
 TAG ?= v1.0.2$(BUILD_META)
-UBI_IMAGE ?= centos:7
-GOLANG_VERSION ?= v1.16.6b7-multiarch
+UBI_IMAGE ?= registry.access.redhat.com/ubi8/ubi-minimal:latest
+GOLANG_VERSION ?= v1.16.10b7-multiarch
 
 ifneq ($(DRONE_TAG),)
 TAG := $(DRONE_TAG)
@@ -26,6 +26,7 @@ image-build:
 		--build-arg PKG=$(PKG) \
 		--build-arg SRC=$(SRC) \
 		--build-arg TAG=$(TAG:$(BUILD_META)=) \
+                --build-arg ARCH=$(ARCH) \
                 --build-arg GO_IMAGE=$(ORG)/hardened-build-base:$(GOLANG_VERSION) \
                 --build-arg UBI_IMAGE=$(UBI_IMAGE) \
 		--tag $(ORG)/hardened-runc:$(TAG) \

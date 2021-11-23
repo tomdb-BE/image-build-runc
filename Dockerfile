@@ -1,6 +1,5 @@
-ARG UBI_IMAGE
-ARG GO_IMAGE
-
+ARG UBI_IMAGE=registry.access.redhat.com/ubi8/ubi-minimal:latest
+ARG GO_IMAGE=rancher/hardened-build-base:v1.16.10b7
 FROM ${UBI_IMAGE} as ubi
 FROM ${GO_IMAGE} as builder
 # setup required packages
@@ -16,16 +15,21 @@ RUN set -x \
 # setup the build
 ARG PKG="github.com/opencontainers/runc"
 ARG SRC="github.com/opencontainers/runc"
-ARG TAG="v1.0.0-rc95"
+ARG TAG="v1.0.2"
+ARG ARCH="amd64"
 RUN git clone --depth=1 https://${SRC}.git $GOPATH/src/${PKG}
 WORKDIR $GOPATH/src/${PKG}
 RUN git fetch --all --tags --prune
 RUN git checkout tags/${TAG} -b ${TAG}
 RUN BUILDTAGS='seccomp selinux apparmor' make static
 RUN go-assert-static.sh runc
-RUN go-assert-boring.sh runc
+RUN if [ "${ARCH}" != "s390x" ]; then \
+    	go-assert-boring.sh runc; \
+    fi
 RUN install -s runc /usr/local/bin
 RUN runc --version
 
 FROM ubi
+RUN microdnf update -y && \
+    rm -rf /var/cache/yum
 COPY --from=builder /usr/local/bin/ /usr/local/bin/
