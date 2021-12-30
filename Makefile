@@ -8,9 +8,9 @@ BUILD_META ?= -multiarch-build$(shell date +%Y%m%d)
 ORG ?= rancher
 PKG ?= github.com/opencontainers/runc
 SRC ?= github.com/opencontainers/runc
-TAG ?= v1.0.2$(BUILD_META)
+TAG ?= v1.0.3$(BUILD_META)
 UBI_IMAGE ?= registry.access.redhat.com/ubi8/ubi-minimal:latest
-GOLANG_VERSION ?= v1.16.10b7-multiarch
+GOLANG_VERSION ?= v1.17.5b7-multiarch
 
 ifneq ($(DRONE_TAG),)
 TAG := $(DRONE_TAG)
