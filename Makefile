@@ -26,6 +26,7 @@ image-build:
 		--build-arg SRC=$(SRC) \
 		--build-arg TAG=$(TAG:$(BUILD_META)=) \
                 --build-arg ARCH=$(ARCH) \
+		--build-arg ORG=$(ORG) \
 		--tag $(ORG)/hardened-runc:$(TAG) \
 		--tag $(ORG)/hardened-runc:$(TAG)-$(ARCH) \
 	.
